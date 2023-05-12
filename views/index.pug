@@ -2,3 +2,10 @@ extends layout
 
 block content
   h1= title
+  if user
+    h3 Welcome to #{title}, #{user.username}!
+    p
+      a(href='/log-out') Logout
+  else
+    h3 Please log in
+    include login
