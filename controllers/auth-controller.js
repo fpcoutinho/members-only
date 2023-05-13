@@ -41,20 +41,20 @@ const signup_post = [
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log("ERROR!");
       return res.render("signup", {
         title: "Sign Up",
-        passwordConfirmationError: "Passwords must be the same",
+        errors: errors.array(),
       });
     }
 
     try {
       const isUserInDB = await User.find({ email: req.body.email });
       if (isUserInDB.length > 0)
-        return res.render("signup", {
+        return res.status(404).render("signup", {
           title: "Sign Up",
-          error: "User already exists",
+          errors: [{ msg: "Email already in use" }],
         });
+
       // If email does not exist, continute to register new user to db
       bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
         if (err) return next(err);
@@ -81,13 +81,12 @@ const signup_post = [
 const login_get = (req, res) => {
   // If user is already logged in, redirect them to the homepage
   if (res.locals.currentUser) return res.redirect("/");
-  res.render("/index", { title: "Login" });
+  res.render("login", { title: "Login" });
 };
 
 const login_post = passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/",
-  // failureFlash: true
+  failureRedirect: "/login",
 });
 
 const logout_get = (req, res) => {

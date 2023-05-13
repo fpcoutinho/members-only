@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
@@ -8,7 +9,6 @@ const User = require("./models/user");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-require("dotenv").config();
 const router = require("./routes/router");
 
 // Connect to MongoDB
@@ -23,12 +23,11 @@ app.set("view engine", "pug");
 
 // Passport authentication
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
-    try {
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (email, password, done) => {
       const user = await User.findOne({ email: email });
-      if (!user) {
-        return done(null, false, { message: "Incorrect email" });
-      }
+      if (!user) return done(null, false, { message: "Incorrect email" });
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
           // passwords match! log user in
@@ -38,10 +37,8 @@ passport.use(
           return done(null, false, { message: "Incorrect password" });
         }
       });
-    } catch (err) {
-      return done(err);
     }
-  })
+  )
 );
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async function (id, done) {
@@ -67,6 +64,22 @@ app.use((req, res, next) => {
 });
 
 app.use("/", router);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
 
 app.listen(process.env.PORT, () =>
   console.log(`app listening on http://localhost:${process.env.PORT}`)

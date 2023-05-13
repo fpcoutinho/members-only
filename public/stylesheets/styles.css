@@ -83,3 +83,10 @@ body {
 .btn-primary:hover {
   background-color: #5f8ee6d3;
 }
+
+.errormsg {
+  color: crimson;
+  font-size: small;
+  margin: 0px;
+  padding: 0px;
+}

@@ -5,7 +5,7 @@ block content
   if user
     h3 Welcome to #{title}, #{user.fullname}!
     p
-      a(href='/log-out') Logout
+      a(href='/logout') Logout
   else
-    h3 Please log in
-    include login
+    h3 Please, 
+      a(href='/login') Log In
