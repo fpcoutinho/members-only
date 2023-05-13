@@ -23,11 +23,11 @@ app.set("view engine", "pug");
 
 // Passport authentication
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
+  new LocalStrategy(async (email, password, done) => {
     try {
-      const user = await User.findOne({ username: username });
+      const user = await User.findOne({ email: email });
       if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+        return done(null, false, { message: "Incorrect email" });
       }
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {

@@ -5,13 +5,21 @@ block content
   
   form(method='POST' action='/sign-up')
     .form-group 
-      label(for='username') Username
-      input#username.form-control(type='text' name='username' placeholder='Digite seu usuário' required="true")
+      label(for='name') Name
+      input#name.form-control(type='text' name='name' placeholder='Digite seu nome' required="true")
+      label(for='surname') Last Name
+      input#surname.form-control(type='text' name='surname' placeholder='Digite seu sobrenome' required="true")
+    .form-group 
+      label(for='email') E-mail
+      input#email.form-control(type='text' name='email' placeholder='Digite seu usuário' required="true")
     .form-group
       label(for='password') Password
       input#password.form-control(type='password' name='password' placeholder='Digite sua senha' required="true")
-      label(for="confirmPassword") Confirm Password: 
+      label(for="confirmPassword") Confirm Password
       input#confirmPassword(type="password" name="confirmPassword" placeholder='Confirme sua senha' required="true")
+    .form-group
+      label(for= 'isadmin') Is this an Admin account?
+      input#isadmin(type='checkbox' name='isadmin')
     button.submit(type='submit') Enviar
   if errors
     ul

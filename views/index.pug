@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
   if user
-    h3 Welcome to #{title}, #{user.username}!
+    h3 Welcome to #{title}, #{user.fullname}!
     p
       a(href='/log-out') Logout
   else

@@ -1,0 +1,15 @@
+extends layout
+
+block content  
+  main
+    h1= title
+    p Bem-vindo ao seu #{title.toLowerCase()}!
+    .appview
+      .messageBoard
+        for message in messages
+          .mensagem 
+            p.texto #{message.text}
+            p.autor por #{message.user}
+            p.data em #{message.createdAt.toLocaleDateString()} às #{message.createdAt.toLocaleTimeString()}
+      .submit 
+        include ./partials/form

@@ -8,11 +8,19 @@ const signup_get = (req, res, next) => {
 };
 
 const signup_post = [
-  body("username")
+  body("name")
     .trim()
     .isLength({ min: 1 })
+    .isAlphanumeric()
     .escape()
-    .withMessage("Username must be at least 6 characters."),
+    .withMessage("Name must be specified."),
+  body("surname")
+    .trim()
+    .isLength({ min: 1 })
+    .isAlphanumeric()
+    .escape()
+    .withMessage("Last name must be specified."),
+  body("email").trim().isEmail().withMessage("Insert a valid email."),
   body("password")
     .trim()
     .isLength({ min: 1 })
@@ -41,20 +49,25 @@ const signup_post = [
     }
 
     try {
-      const isUserInDB = await User.find({ username: req.body.username });
+      const isUserInDB = await User.find({ email: req.body.email });
       if (isUserInDB.length > 0)
         return res.render("signup", {
           title: "Sign Up",
           error: "User already exists",
         });
-      // If username does not exist, continute to register new user to db
+      // If email does not exist, continute to register new user to db
       bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
         if (err) return next(err);
         try {
           const user = new User({
-            username: req.body.username,
+            name: req.body.name,
+            surname: req.body.surname,
+            email: req.body.email,
             password: hashedPassword,
+            membership: false,
+            isadmin: req.body.isadmin === "on" ? true : false,
           }).save();
+          res.redirect("/");
         } catch (err) {
           return next(err);
         }

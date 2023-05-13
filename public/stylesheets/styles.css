@@ -4,3 +4,82 @@ body {
   font: 14px "Inter", sans-serif;
   padding-top: 5px;
 }
+
+.appview {
+  width: 400px;
+  height: 600px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Quadro de mensagens */
+.messageBoard {
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+/* Cada balão de mensagem */
+.mensagem {
+  border-left: 5px solid cornflowerblue;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.mensagem:hover {
+  background-color: #e6e6e6;
+}
+
+.mensagem p {
+  margin: 5px;
+}
+
+.mensagem .texto {
+  font-size: x-large;
+}
+
+.mensagem .autor {
+  font-size: smaller;
+  text-align: right;
+  color: #999;
+}
+
+.mensagem .data {
+  font-size: x-small;
+  text-align: right;
+  color: #999;
+}
+
+/* Formulário de envio de mensagens */
+.messageForm {
+  margin-top: 20px;
+}
+
+.messageForm input {
+  padding: 10px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.messageForm input[type="text"]:hover {
+  background-color: #e6e6e6;
+}
+
+.messageForm input:focus {
+  outline: none;
+}
+
+.btn-primary {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 0px 0px 5px 5px;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5f8ee6d3;
+}
